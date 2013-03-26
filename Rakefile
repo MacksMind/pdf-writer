@@ -12,7 +12,7 @@
 $LOAD_PATH.unshift('lib')
 
 require 'meta_project'
-require 'rake/gempackagetask'
+require 'rubygems/package_task'
 require 'rake/contrib/xforge'
 require 'rake/clean'    
 require 'rake/testtask'
@@ -45,7 +45,7 @@ end
         
 
 Rake::TestTask.new do |test|
-  test.libs << "test"
+  test.libs << "test" << "."
   test.test_files = Dir[ "test/test_*.rb" ]
   test.verbose = true
 end
@@ -54,7 +54,7 @@ mkdir_p "pkg"
 spec = eval(File.read("pdf-writer.gemspec"))
 desc "Build the RubyGem for PDF::Writer"
 task :gem => [ :test ]
-Rake::GemPackageTask.new(spec) do |g|
+Gem::PackageTask.new(spec) do |g|
   g.need_tar    = false
   g.need_zip    = false
   g.package_dir = "pkg"
